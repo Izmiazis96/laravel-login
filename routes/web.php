@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+Route::get('/logout', 'DashboardController@logout')->name('dashboard.logout');
+// Register
 Route::get('/register', 'RegisterController@index')->name('register.index');
 Route::post('/register', 'RegisterController@store')->name('register.store');
-
+// LOGIN
+Route::get('/login', 'LoginController@index')->name('login.index');
+Route::post('/login', 'LoginController@check_login')->name('login.check_login');

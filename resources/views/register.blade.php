@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Register Akun</title>
 </head>
@@ -43,9 +44,12 @@
         </div>
     </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script> --}}
 <script>
     $(document).ready(function() {
         $(".btn-register").click( function() {
@@ -54,30 +58,31 @@
             let password     = $("#password").val();
             let token        = $("meta[name ='csrf-token']").attr("content");
 
-            if (nama_lengkap.length == " ") {
+            
+
+            if (nama_lengkap.length  == " " || nama_lengkap.length < 3) {
                 Swal.fire({
                     type: 'warning',
                     title: 'Oops...',
-                    text: 'Nama Lengkap Wajib Isi !'
+                    text: 'Nama Lengkap Wajib Isi dan Minimal 3 Huruf!'
                 });                
+                // cek email valid
             } else if(email.length == " ") {
                 Swal.fire({
                     type: 'Warning',
                     title: 'Oops',
                     text: 'Email harus diisi'
                 });
-            } else if (password.length == "") {
+            } else if (password.length == "" || password.length < 5) {
                 Swal.fire({
                     type: 'Warning',
                     title: 'Oops',
-                    text: 'Password wajib diisi !'
+                    text: 'Password wajib diisi minimal 5 karakter!'
                 });
             
             } else {
-
                 // ajax
                 $.ajax({
-
                     url: "{{ route('register.store') }}",
                     type: "POST",
                     cache: false,
@@ -109,8 +114,7 @@
                                 text: 'Silahkan Coba Lagi!'
                             });
                         }
-
-                        console.log(response)
+                        //console.log(response)
                     },
 
                     error:function(response){
